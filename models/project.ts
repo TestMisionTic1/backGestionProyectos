@@ -11,6 +11,7 @@ interface Proyecto {
   estado: Enum_EstadoProyecto;
   fase: Enum_FaseProyecto;
   lider: Schema.Types.ObjectId;
+  objetivos: [Schema.Types.ObjectId];
 }
 
 const projectSchema = new Schema<Proyecto>({
@@ -45,6 +46,12 @@ const projectSchema = new Schema<Proyecto>({
     required: true,
     ref: userModel,
   },
+  objetivos: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: ObjectiveModel,
+    },
+  ],
 });
 
 const projectModel = model('Project', projectSchema);
