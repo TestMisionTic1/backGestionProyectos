@@ -103,6 +103,46 @@ const consultaProyectoconObjetivos2 = async () => {
     .populate('objetivos');
   console.log('El proyecto es:  ', JSON.stringify(proyecto));
 };
+// METODOLOGIA ON TO MANY # 3
+const crearProyectoconObjetivos3 = async () => {
+  const usuarioInicial = await userModel.create({
+    nombre: 'David',
+    apellido: 'Salguero',
+    correo: 'dsp5502@gmail.com',
+    identificacion: '10324447',
+    rol: Enum_Rol.administrador,
+    estado: Enum_EstadoUsuario.autorizado,
+  });
+
+  const proyecto = await projectModel.create({
+    nombre: 'Proyecto Mision TIC',
+    fechaInicio: new Date('2021/12/24'),
+    fechaFin: new Date('2022/12/24'),
+    presupuesto: 120000,
+    lider: usuarioInicial._id,
+    objetivos: [
+      {
+        descripcion: 'este es el objetivo General',
+        tipo: Enum_TipoObjetivo.general,
+      },
+      {
+        descripcion: 'este es el objetivo especifico 1',
+        tipo: Enum_TipoObjetivo.especifico,
+      },
+      {
+        descripcion: 'este es el objetivo especifico 2',
+        tipo: Enum_TipoObjetivo.especifico,
+      },
+    ],
+  });
+};
+
+const consultaProyectoconObjetivos3 = async () => {
+  const proyectoCreado = await projectModel.find({
+    _id: '61942d25142f9a3e7fba7927',
+  });
+  console.log('Proyecto creado es ', proyectoCreado);
+};
 
 const main = async () => {
   await conectarDb();
