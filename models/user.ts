@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import { Enum_Rol, Enum_EstadoUsuario} from "./enums";
+import { Enum_Rol, Enum_EstadoUsuario } from "./enums";
 
-interface User{
+interface User {
   correo: string;
   identificacion: string;
   nombre: string;
@@ -12,11 +12,11 @@ interface User{
 
 const userSchema = new Schema<User>({
   correo: {
-    type:String,
+    type: String,
     required: true,
     unique: true,
-    validate:{
-      validator: (email) =>{
+    validate: {
+      validator: (email) => {
         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
       },
       // validator: (email) =>{
@@ -27,34 +27,33 @@ const userSchema = new Schema<User>({
       //   }
       // },
       message: "el Formato del correo esta mal.",
-
-    }
+    },
   },
 
   identificacion: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
-  nombre:{
-    type: String,
-    required: true
-  },
-  apellido:{
-    type:String,
-    required: true
-  },
-  rol:{
+  nombre: {
     type: String,
     required: true,
-    enum: Enum_Rol
   },
-  estado:{
+  apellido: {
+    type: String,
+    required: true,
+  },
+  rol: {
+    type: String,
+    required: true,
+    enum: Enum_Rol,
+  },
+  estado: {
     type: String,
     enum: Enum_EstadoUsuario,
-    default:Enum_EstadoUsuario.Pendiente
-  }
-})
+    default: Enum_EstadoUsuario.Pendiente,
+  },
+});
 
-const userModel = model("User", userSchema)
-export  {userModel};
+const userModel = model("User", userSchema);
+export { userModel };

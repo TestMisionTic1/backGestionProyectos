@@ -1,45 +1,72 @@
-import conectarDb from "./db/db";
-import { userModel } from "./models/user";
-import { Enum_Rol, Enum_TipoObjetivo } from "./models/enums";
-import { projectModel } from "./models/project";
-import { ObjectiveModel } from "./models/objective";
+import conectarDb from './db/db';
+import { userModel } from './models/user';
+import {
+  Enum_EstadoUsuario,
+  Enum_Rol,
+  Enum_TipoObjetivo,
+} from './models/enums';
+import { projectModel } from './models/project';
+import { ObjectiveModel } from './models/objective';
+import { ObjectId } from 'mongoose';
+// METODOLOGIA ON TO MANY # 1
+const crearProyectoconObjetivos = async () => {
+  const usuarioInicial = await userModel.create({
+    nombre: 'David',
+    apellido: 'Salguero',
+    correo: 'dsp5502@gmail.com',
+    identificacion: '10324447',
+    rol: Enum_Rol.administrador,
+    estado: Enum_EstadoUsuario.autorizado,
+  });
 
+  const proyecto = await projectModel.create({
+    nombre: 'Proyecto Mision TIC',
+    fechaInicio: new Date('2021/12/24'),
+    fechaFin: new Date('2022/12/24'),
+    presupuesto: 120000,
+    lider: usuarioInicial._id,
+  });
 
+  const objetivoGeneral = await ObjectiveModel.create({
+    descripcion: 'Este es el obj General',
+    tipo: Enum_TipoObjetivo.general,
+    proyecto: proyecto._id,
+  });
+  const objetivoEspecifico = await ObjectiveModel.create({
+    descripcion: 'Este es el obj Especifico 1',
+    tipo: Enum_TipoObjetivo.especifico,
+    proyecto: proyecto._id,
+  });
+  const objetivoEspecifico2 = await ObjectiveModel.create({
+    descripcion: 'Este es el obj Espescifico 2',
+    tipo: Enum_TipoObjetivo.especifico,
+    proyecto: proyecto._id,
+  });
+};
+
+const consultaProyectoconObjetivos = async () => {
+  const proyecto = await projectModel.findOne({
+    _id: '61941ea87cf82212e146fbac',
+  });
+  console.log('El proyecto es:  ', proyecto);
+
+  const objetivos = await ObjectiveModel.find({
+    project: '61941ea87cf82212e146fbac',
+  });
+  console.log('Los Objetivos del proyecto  son:  ', objetivos);
+  const proyectoconObjetivos = { ...proyecto, objetivos: objetivos };
+  console.log('El Proyecto con Objetivos es ', proyectoconObjetivos);
+};
 const main = async () => {
   await conectarDb();
-
-  // const object =  await ObjectiveModel.create({
-  //   descripcion: " Este es el Objetivo Especifico",
-  //   tipo: Enum_TipoObjetivo.especifico
-  // })
-
-//Crear Proyecto
-  // await projectModel.create({
-  // nombre: "Mintic",
-  // presupuesto: 10.000,
-  // fechaInicio: Date.now(),
-  // fechaFin: new Date("2021/11/10"),
-  // lider: "618eb4cb8ae752bc9d191b80",
-  // objetivos:[ "618eeb00f9695afa5a6443de", "618eeb7222e8cf5ede833025"]
-  // })
-
-//consultar proyecto
-const proyecto= await projectModel.find({nombre: "Mintic"}).populate("lider").populate("objetivos")
-console.log("El proyecto es:  ", JSON.stringify(proyecto))
-
 };
-  main();
 
+main();
 
+//CRUD USUARIO
 
+// crear un usuario
 
-
-
-
-  //CRUD USUARIO
-
-   // crear un usuario
-  
 //  await userModel.create({
 //     nombre: "David",
 //     apellido: "Salguero",
@@ -53,15 +80,13 @@ console.log("El proyecto es:  ", JSON.stringify(proyecto))
 //       console.error("Error creando el usuario", e);
 //     });
 
-
-// obtener los usuarios 
+// obtener los usuarios
 // await userModel.find().then((u) => {
 //       console.log("usuario ", u);
 //     })
 //     .catch((e) => {
 //       console.error("Error obteniendo los usuario", e);
 //     });
-
 
 //OBTENER UN SOLO USUARIO
 
@@ -71,7 +96,6 @@ console.log("El proyecto es:  ", JSON.stringify(proyecto))
 //     .catch((e) => {
 //       console.error( e);
 //     });
-
 
 //EDITAR UN USUARIO:
 
@@ -86,7 +110,6 @@ console.log("El proyecto es:  ", JSON.stringify(proyecto))
 //     .catch((e) => {
 //       console.error("Error Editando el usuario", e);
 //     });
-
 
 //eliminar Ususario
 // await userModel.findOneAndDelete(
