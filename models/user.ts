@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose";
-import { Enum_Rol, Enum_EstadoUsuario } from "./enums";
+import { Schema, model } from 'mongoose';
+import { Enum_Rol, Enum_EstadoUsuario } from './enums';
 
 interface User {
   correo: string;
@@ -26,7 +26,7 @@ const userSchema = new Schema<User>({
       //     return false
       //   }
       // },
-      message: "el Formato del correo esta mal.",
+      message: 'el Formato del correo esta mal.',
     },
   },
 
@@ -51,9 +51,9 @@ const userSchema = new Schema<User>({
   estado: {
     type: String,
     enum: Enum_EstadoUsuario,
-    default: Enum_EstadoUsuario.Pendiente,
+    default: Enum_EstadoUsuario.PENDIENTE,
   },
 });
 
-const userModel = model("User", userSchema);
+const userModel = model('User', userSchema);
 export { userModel };

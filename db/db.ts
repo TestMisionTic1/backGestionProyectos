@@ -1,14 +1,12 @@
-import { connect } from "mongoose";
+import { connect } from 'mongoose';
 
 const conectarDb = async () => {
-  return await connect(
-    "mongodb+srv://admin:adminProyectos@gestionproyectsosmision.wlsmz.mongodb.net/GestionProyectos?retryWrites=true&w=majority"
-  )
+  return await connect(process.env.DATABASE_URL)
     .then(() => {
-      console.log("conexion Exitosa");
+      console.log('conexion Exitosa');
     })
     .catch((e) => {
-      console.error("Error conectando a la Db", e);
+      console.error('Error conectando a la Db', e);
     });
 };
 
