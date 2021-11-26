@@ -9,7 +9,15 @@ const resolversAvances = {
         .populate('creadoPor');
       return avances;
     },
+    FiltrarAvances: async (parent, args) => {
+      const avancefiltrado = await advancementModel
+        .find({ proyecto: args.idProyecto })
+        .populate('proyecto')
+        .populate('creadoPor');
+      return avancefiltrado;
+    },
   },
+
   Mutation: {
     crearAvance: async (parent, args) => {
       const avanceCreado = await advancementModel.create({
