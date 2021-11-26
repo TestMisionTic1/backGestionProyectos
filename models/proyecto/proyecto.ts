@@ -3,9 +3,9 @@ import {
   Enum_EstadoProyecto,
   Enum_FaseProyecto,
   Enum_TipoObjetivo,
-} from './enums';
-import { ObjectiveModel } from './objective';
-import { userModel } from './user';
+} from '../enums/enums';
+import { ObjectiveModel } from '../objective';
+import { userModel } from '../usuario/usuario';
 
 interface Proyecto {
   nombre: string;

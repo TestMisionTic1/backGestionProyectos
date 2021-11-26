@@ -1,11 +1,11 @@
 import conectarDb from './db/db';
-import { userModel } from './models/user';
+import { userModel } from './models/usuario/usuario';
 import {
   Enum_EstadoUsuario,
   Enum_Rol,
   Enum_TipoObjetivo,
-} from './models/enums';
-import { projectModel } from './models/project';
+} from './models/enums/enums';
+import { projectModel } from './models/proyecto/proyecto';
 import { ObjectiveModel } from './models/objective';
 import { ObjectId } from 'mongoose';
 // METODOLOGIA ON TO MANY # 1
